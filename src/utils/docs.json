@@ -1,0 +1,61 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "proximity-training-backend",
+		"description": "Documentation of the test",
+		"contact": {
+			"email": "bryan.ve.bv@gmail.com"
+		},
+		"license": {
+			"name": "MIT",
+			"url": "https://opensource.org/licenses/MIT"
+		},
+		"version": "undefined"
+	},
+	"servers": [
+		{
+			"url": "http://localhost:1996/api",
+			"description": "proximity-training-backend local API"
+		}
+	],
+	"paths": {},
+	"components": {
+		"schemas": {
+			"DefaultSuccess": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": false
+					},
+					"message": {
+						"type": "object",
+						"properties": {
+							"result": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			},
+			"DefaultError": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": true
+					},
+					"message": {
+						"type": "object",
+						"properties": {
+							"result": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		},
+		"requestBodies": {}
+	}
+}
