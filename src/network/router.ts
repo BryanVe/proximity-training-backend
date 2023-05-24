@@ -3,10 +3,10 @@ import swaggerUi from 'swagger-ui-express'
 import httpErrors from 'http-errors'
 
 import { response } from './response'
-import { Home } from './routes'
+import { Home, Auth } from './routes'
 import { docs } from 'utils'
 
-const routers: Router[] = []
+const routers: Router[] = [Auth]
 const applyRoutes = (app: Application): void => {
 	app.use('/', Home)
 	app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(docs))

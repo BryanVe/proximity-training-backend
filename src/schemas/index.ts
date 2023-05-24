@@ -9,3 +9,4 @@ const idSchema = Type.Object({ id })
 type IdSchema = Static<typeof idSchema>
 
 export { id, Id, idSchema, IdSchema }
+export * from './auth'
