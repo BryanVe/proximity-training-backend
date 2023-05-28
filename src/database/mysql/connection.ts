@@ -14,18 +14,11 @@ const dbConnection = async (
 	return {
 		connect: async () => {
 			if (!sequelize) {
-				sequelize = new Sequelize({
+				sequelize = new Sequelize(process.env.DB_URI as string, {
 					dialect: 'mysql',
-					port: 3306,
-					password: 'password',
-					username: 'root',
-					database: 'proximitydb',
 					models: Object.values(models),
 				})
 
-				// sequelize
-				// 	.query('select DISTINCT organization from training')
-				// 	.then(e => console.log(e))
 				logger?.info('MySQL connection established.')
 			}
 

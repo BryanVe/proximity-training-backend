@@ -1,61 +1,30 @@
 import httpErrors from 'http-errors'
 
-import { get, getByEmail } from 'database'
-import { CredentialsDto, UserDTO } from 'schemas'
-import { EFU, MFU, GE, errorHandling } from './utils'
+import { getByEmail } from 'database'
+import { CredentialsDTO, UserDTO } from 'schemas'
+import { EFU, GE, errorHandling } from './utils'
 
 type Process = {
-	type: 'getAll' | 'getOne' | 'login'
+	type: 'login'
 }
 
 type Arguments = {
-	id?: number
-	credentials?: CredentialsDto
+	credentials?: CredentialsDTO
 }
 
-class UserService {
+class AuthService {
 	#args: Arguments
 
 	constructor(args: Arguments = {}) {
 		this.#args = args
 	}
 
-	public process({ type }: Process): Promise<string | UserDTO | UserDTO[]> {
+	public process({ type }: Process): Promise<UserDTO> {
 		switch (type) {
-			case 'getAll':
-				return this.#getAll()
-			case 'getOne':
-				return this.#getOne()
 			case 'login':
 				return this.#login()
 			default:
 				throw new httpErrors.InternalServerError(GE.INTERNAL_SERVER_ERROR)
-		}
-	}
-
-	async #getAll(): Promise<UserDTO[]> {
-		try {
-			const users = (await get()) as UserDTO[]
-
-			return users
-		} catch (e) {
-			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
-		}
-	}
-
-	async #getOne(): Promise<UserDTO> {
-		try {
-			if (!this.#args.id)
-				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
-
-			const { id } = this.#args
-			const user = (await get(id)) as UserDTO | null
-
-			if (!user) throw new httpErrors.NotFound(EFU.NOT_FOUND)
-
-			return user
-		} catch (e) {
-			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}
 	}
 
@@ -66,18 +35,20 @@ class UserService {
 
 			const { email, password } = this.#args.credentials
 
-			const user = (await getByEmail(email)) as UserDTO | null
+			const user = await getByEmail(email)
 
-			if (!user) throw new httpErrors.NotFound(EFU.NOT_FOUND)
+			if (!user) throw new httpErrors.Unauthorized(EFU.INVALID_CREDENTIALS)
 
-			if (user.password !== password)
-				throw new httpErrors.NotFound(EFU.INVALID_CREDENTIALS)
+			const { password: savedPassword, ...userWithoutPassword } = user
 
-			return user
+			if (savedPassword !== password)
+				throw new httpErrors.Unauthorized(EFU.INVALID_CREDENTIALS)
+
+			return userWithoutPassword
 		} catch (e) {
 			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}
 	}
 }
 
-export { UserService }
+export { AuthService }

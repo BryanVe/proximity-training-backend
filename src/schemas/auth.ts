@@ -2,22 +2,22 @@ import { Static, Type } from '@sinclair/typebox'
 
 import { id } from '.'
 
-const userDto = Type.Object({
+const userDTO = Type.Object({
 	id: Type.Optional(id),
 	user: Type.String(),
 	email: Type.String(),
-	password: Type.String(),
+	password: Type.Optional(Type.String()),
 	organization: Type.String(),
 	is_deleted: Type.Number(),
 })
 
-type UserDTO = Static<typeof userDto>
+type UserDTO = Static<typeof userDTO>
 
-const credentialsDto = Type.Object({
+const credentialsDTO = Type.Object({
 	email: Type.String(),
 	password: Type.String(),
 })
 
-type CredentialsDto = Static<typeof credentialsDto>
+type CredentialsDTO = Static<typeof credentialsDTO>
 
-export { userDto, UserDTO, credentialsDto, CredentialsDto }
+export { userDTO, UserDTO, credentialsDTO, CredentialsDTO }
