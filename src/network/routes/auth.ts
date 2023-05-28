@@ -7,7 +7,7 @@ import { validatorCompiler } from './utils'
 
 const Auth = Router()
 
-Auth.route('/login').post(
+Auth.route('/auth').post(
 	validatorCompiler(credentialsDTO, 'body'),
 	async (
 		req: CustomRequest,
@@ -17,7 +17,7 @@ Auth.route('/login').post(
 		try {
 			const credentials = req.body
 			const as = new AuthService({ credentials })
-			const result = await as.process({ type: 'login' })
+			const result = await as.process({ type: 'auth' })
 
 			response({ error: false, message: result, res, status: 200 })
 		} catch (error) {

@@ -1,6 +1,6 @@
 {
 	"name": "proximity-training-backend",
-	"version": "0.0.0",
+	"version": "0.0.4",
 	"main": "src/index.ts",
 	"description": "Proximity Training Backend",
 	"scripts": {

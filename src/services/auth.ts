@@ -5,7 +5,7 @@ import { CredentialsDTO, UserDTO } from 'schemas'
 import { EFU, GE, errorHandling } from './utils'
 
 type Process = {
-	type: 'login'
+	type: 'auth'
 }
 
 type Arguments = {
@@ -21,14 +21,14 @@ class AuthService {
 
 	public process({ type }: Process): Promise<UserDTO> {
 		switch (type) {
-			case 'login':
-				return this.#login()
+			case 'auth':
+				return this.#auth()
 			default:
 				throw new httpErrors.InternalServerError(GE.INTERNAL_SERVER_ERROR)
 		}
 	}
 
-	async #login(): Promise<UserDTO> {
+	async #auth(): Promise<UserDTO> {
 		try {
 			if (!this.#args.credentials)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
