@@ -1,5 +1,5 @@
 enum GenericErrors {
-	INTERNAL_SERVER_ERROR = 'Something went wrong',
+	INTERNAL_SERVER_ERROR = 'Error interno del servidor',
 }
 
 export { GenericErrors as GE }

@@ -7,7 +7,8 @@ const Home = Router()
 Home.route('').get((_: Request, res: Response) => {
 	response({
 		error: false,
-		message: 'Welcome to Proximity Platform Backend!',
+		message:
+			'¡Bienvenido al backend de la plataforma de entrenamiendo de Proximity!',
 		res,
 		status: 200,
 	})

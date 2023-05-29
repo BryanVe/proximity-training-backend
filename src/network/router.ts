@@ -14,7 +14,7 @@ const applyRoutes = (app: Application): void => {
 
 	// Handling 404 error
 	app.use((req, res, next) => {
-		next(new httpErrors.NotFound('This route does not exists'))
+		next(new httpErrors.NotFound('Esta ruta no existe'))
 	})
 	app.use(
 		(

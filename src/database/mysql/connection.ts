@@ -19,13 +19,13 @@ const dbConnection = async (
 					models: Object.values(models),
 				})
 
-				logger?.info('MySQL connection established.')
+				logger?.info('Conexión a la base de datos MySQL establecida')
 			}
 
 			return sequelize
 		},
 		disconnect: () => {
-			logger?.info('MySQL connection closed.')
+			logger?.info('Conexión a la base de datos MySQL cerrada')
 
 			return sequelize?.close()
 		},

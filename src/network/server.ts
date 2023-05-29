@@ -65,7 +65,7 @@ class Server {
 			await this.#dbConnection()
 			await this.#connection?.connect()
 			this.#server = this.#app.listen(PORT, () => {
-				this.#log.logger.info(`Server running at port ${PORT}`)
+				this.#log.logger.info(`Servidor corriendo en el puerto ${PORT}`)
 			})
 		} catch (e) {
 			this.#log.logger.error(e)
