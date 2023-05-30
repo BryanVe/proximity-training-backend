@@ -7,6 +7,7 @@ const getByEmail = async (email: string): Promise<UserDTO | null> => {
 	const user = await User.findOne({
 		where: {
 			email,
+			deleted: 0,
 		},
 	})
 

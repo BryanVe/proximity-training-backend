@@ -42,8 +42,9 @@ class User extends Model {
 		type: DataType.INTEGER,
 		allowNull: false,
 		defaultValue: 0,
+		field: 'is_deleted',
 	})
-	is_deleted!: number
+	deleted!: number
 }
 
 export { User }

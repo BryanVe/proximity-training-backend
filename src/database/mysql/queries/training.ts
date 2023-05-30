@@ -16,6 +16,7 @@ const getMostUsedModules = async (
 		],
 		where: {
 			organization,
+			deleted: 0,
 		},
 		group: ['module'],
 		order: [['quantity', 'DESC']],
@@ -35,6 +36,7 @@ const getMostCommonResults = async (
 		],
 		where: {
 			organization,
+			deleted: 0,
 		},
 		group: ['result'],
 		order: [['quantity', 'DESC']],
