@@ -1,5 +1,5 @@
 import { Training } from '..'
-import { MostUsedModuleDTO } from 'schemas'
+import { MostCommonResultDTO, MostUsedModuleDTO } from 'schemas'
 import { Sequelize } from 'sequelize'
 
 const getMostUsedModules = async (
@@ -15,10 +15,29 @@ const getMostUsedModules = async (
 		},
 		group: ['module'],
 		order: [['quantity', 'DESC']],
-		limit: 5,
+		limit: 7,
 	})
 
 	return mostUsedModules.map(m => m.get() as MostUsedModuleDTO)
 }
 
-export { getMostUsedModules }
+const getMostCommonResults = async (
+	organization: string
+): Promise<MostCommonResultDTO[]> => {
+	const mostCommonResult = await Training.findAll({
+		attributes: [
+			'result',
+			[Sequelize.fn('COUNT', Sequelize.col('result')), 'quantity'],
+		],
+		where: {
+			organization,
+		},
+		group: ['result'],
+		order: [['quantity', 'DESC']],
+		limit: 7,
+	})
+
+	return mostCommonResult.map(m => m.get() as MostCommonResultDTO)
+}
+
+export { getMostUsedModules, getMostCommonResults }
