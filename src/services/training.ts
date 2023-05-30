@@ -5,12 +5,15 @@ import {
 	getModules,
 	getMostCommonResults,
 	getMostUsedModules,
+	getTrainings,
 } from 'database'
 import {
 	LastTrainingDTO,
 	MostCommonResultDTO,
 	MostUsedModuleDTO,
 	OrganizationFilterDTO,
+	TrainingDTO,
+	TrainingsFiltersDTO,
 } from 'schemas'
 import { GE, errorHandling } from './utils'
 
@@ -20,10 +23,12 @@ type Process = {
 		| 'getMostCommonResults'
 		| 'getLastTrainings'
 		| 'getModules'
+		| 'getTrainings'
 }
 
 type Arguments = {
 	organizationFilter?: OrganizationFilterDTO
+	trainingsFilters?: TrainingsFiltersDTO
 }
 
 type Responses =
@@ -31,6 +36,7 @@ type Responses =
 	| MostCommonResultDTO[]
 	| LastTrainingDTO[]
 	| string[]
+	| TrainingDTO[]
 
 class TrainingService {
 	#args: Arguments
@@ -49,6 +55,8 @@ class TrainingService {
 				return this.#getLastTrainings()
 			case 'getModules':
 				return this.#getModules()
+			case 'getTrainings':
+				return this.#getTrainings()
 			default:
 				throw new httpErrors.InternalServerError(GE.INTERNAL_SERVER_ERROR)
 		}
@@ -109,6 +117,19 @@ class TrainingService {
 			const modules = await getModules(organization)
 
 			return modules
+		} catch (e) {
+			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
+		}
+	}
+
+	async #getTrainings(): Promise<TrainingDTO[]> {
+		try {
+			if (!this.#args.trainingsFilters)
+				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
+
+			const trainings = await getTrainings(this.#args.trainingsFilters)
+
+			return trainings
 		} catch (e) {
 			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}

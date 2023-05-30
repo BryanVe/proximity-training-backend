@@ -1,6 +1,6 @@
 import { NextFunction } from 'express'
 import httpErrors from 'http-errors'
-import { TObject, TProperties } from '@sinclair/typebox'
+import { TSchema } from '@sinclair/typebox'
 import Ajv from 'ajv'
 
 const ajv = new Ajv({
@@ -16,8 +16,8 @@ type Middleware = (
 	next: NextFunction
 ) => void
 
-const validatorCompiler = <T extends TProperties>(
-	schema: TObject<T>,
+const validatorCompiler = (
+	schema: TSchema,
 	value: 'body' | 'params'
 ): Middleware => {
 	return (req: CustomRequest, res: CustomResponse, next: NextFunction) => {

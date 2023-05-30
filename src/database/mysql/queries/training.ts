@@ -3,6 +3,8 @@ import {
 	LastTrainingDTO,
 	MostCommonResultDTO,
 	MostUsedModuleDTO,
+	TrainingDTO,
+	TrainingsFiltersDTO,
 } from 'schemas'
 import { Sequelize } from 'sequelize'
 
@@ -75,9 +77,28 @@ const getModules = async (organization: string): Promise<string[]> => {
 	return modules.map(m => m.module)
 }
 
+const getTrainings = async (
+	filters: TrainingsFiltersDTO
+): Promise<TrainingDTO[]> => {
+	const { module, organization, limit, offset } = filters
+	const trainings = await Training.findAll({
+		where: {
+			module,
+			organization,
+			deleted: 0,
+		},
+		order: [['startDate', 'DESC']],
+		limit,
+		offset,
+	})
+
+	return trainings.map(t => t.get())
+}
+
 export {
 	getMostUsedModules,
 	getMostCommonResults,
 	getLastTrainings,
 	getModules,
+	getTrainings,
 }

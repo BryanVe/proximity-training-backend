@@ -50,6 +50,17 @@ const lastTrainingDTO = Type.Object({
 
 type LastTrainingDTO = Static<typeof lastTrainingDTO>
 
+const trainingsFiltersDTO = Type.Intersect([
+	organizationFilterDTO,
+	Type.Object({
+		module: Type.String(),
+		limit: Type.Number(),
+		offset: Type.Number(),
+	}),
+])
+
+type TrainingsFiltersDTO = Static<typeof trainingsFiltersDTO>
+
 export {
 	organizationFilterDTO,
 	OrganizationFilterDTO,
@@ -61,4 +72,6 @@ export {
 	MostCommonResultDTO,
 	lastTrainingDTO,
 	LastTrainingDTO,
+	trainingsFiltersDTO,
+	TrainingsFiltersDTO,
 }
