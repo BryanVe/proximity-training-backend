@@ -1,7 +1,12 @@
 import httpErrors from 'http-errors'
 
-import { getMostCommonResults, getMostUsedModules } from 'database'
 import {
+	getLastTrainings,
+	getMostCommonResults,
+	getMostUsedModules,
+} from 'database'
+import {
+	LastTrainingDTO,
 	MostCommonResultDTO,
 	MostUsedModuleDTO,
 	OrganizationFilterDTO,
@@ -9,14 +14,14 @@ import {
 import { GE, errorHandling } from './utils'
 
 type Process = {
-	type: 'getMostUsedModules' | 'getMostCommonResults'
+	type: 'getMostUsedModules' | 'getMostCommonResults' | 'getLastTrainings'
 }
 
 type Arguments = {
 	organizationFilter?: OrganizationFilterDTO
 }
 
-type Responses = MostUsedModuleDTO[] | MostCommonResultDTO[]
+type Responses = MostUsedModuleDTO[] | MostCommonResultDTO[] | LastTrainingDTO[]
 
 class TrainingService {
 	#args: Arguments
@@ -31,6 +36,8 @@ class TrainingService {
 				return this.#getMostUsedModules()
 			case 'getMostCommonResults':
 				return this.#getMostCommonResults()
+			case 'getLastTrainings':
+				return this.#getLastTrainings()
 			default:
 				throw new httpErrors.InternalServerError(GE.INTERNAL_SERVER_ERROR)
 		}
@@ -61,6 +68,21 @@ class TrainingService {
 			const mostCommonResults = await getMostCommonResults(organization)
 
 			return mostCommonResults
+		} catch (e) {
+			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
+		}
+	}
+
+	async #getLastTrainings(): Promise<LastTrainingDTO[]> {
+		try {
+			if (!this.#args.organizationFilter)
+				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
+
+			const { organization } = this.#args.organizationFilter
+
+			const lastTrainings = await getLastTrainings(organization)
+
+			return lastTrainings
 		} catch (e) {
 			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}

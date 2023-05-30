@@ -21,18 +21,21 @@ class Training extends Model {
 
 	@Column({
 		type: DataType.DATE,
+		field: 'start_date',
 	})
-	start_date!: string
+	startDate!: string
 
 	@Column({
 		type: DataType.DATE,
+		field: 'end_date',
 	})
-	end_date!: string
+	endDate!: string
 
 	@Column({
 		type: DataType.STRING,
+		field: 'DNI',
 	})
-	DNI!: string
+	dni!: string
 
 	@Column({
 		type: DataType.STRING,
@@ -56,30 +59,35 @@ class Training extends Model {
 
 	@Column({
 		type: DataType.STRING,
+		field: 'critical_errors',
 	})
-	critical_errors!: string
+	criticalErrors!: string
 
 	@Column({
 		type: DataType.STRING,
+		field: 'minor_errors',
 	})
-	minor_errors!: string
+	minorErrors!: string
 
 	@Column({
 		type: DataType.STRING,
+		field: 'epp_no_tomados',
 	})
-	epp_no_tomados!: string
+	eppNoTomados!: string
 
 	@Column({
 		type: DataType.STRING,
+		field: 'epp_incorrectamente_tomados',
 	})
-	epp_incorrectamente_tomados!: string
+	eppIncorrectamenteTomados!: string
 
 	@Column({
 		type: DataType.INTEGER,
 		allowNull: false,
 		defaultValue: 0,
+		field: 'is_deleted',
 	})
-	is_deleted!: number
+	deleted!: number
 }
 
 export { Training }

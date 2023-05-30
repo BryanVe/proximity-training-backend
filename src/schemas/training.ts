@@ -40,6 +40,16 @@ const mostCommonResultDTO = Type.Object({
 
 type MostCommonResultDTO = Static<typeof mostCommonResultDTO>
 
+const lastTrainingDTO = Type.Object({
+	id,
+	organization: Type.Optional(Type.String()),
+	startDate: Type.Optional(Type.Date()),
+	module: Type.Optional(Type.String()),
+	result: Type.Optional(Type.String()),
+})
+
+type LastTrainingDTO = Static<typeof lastTrainingDTO>
+
 export {
 	organizationFilterDTO,
 	OrganizationFilterDTO,
@@ -49,4 +59,6 @@ export {
 	MostUsedModuleDTO,
 	mostCommonResultDTO,
 	MostCommonResultDTO,
+	lastTrainingDTO,
+	LastTrainingDTO,
 }
