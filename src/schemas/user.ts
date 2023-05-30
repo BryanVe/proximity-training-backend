@@ -8,7 +8,7 @@ const userDTO = Type.Object({
 	email: Type.String(),
 	password: Type.Optional(Type.String()),
 	organization: Type.String(),
-	is_deleted: Type.Number(),
+	deleted: Type.Number(),
 })
 
 type UserDTO = Static<typeof userDTO>

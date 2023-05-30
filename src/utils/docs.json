@@ -115,7 +115,7 @@
 					"organization": {
 						"type": "string"
 					},
-					"is_deleted": {
+					"deleted": {
 						"type": "number"
 					}
 				}

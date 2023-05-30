@@ -4,18 +4,18 @@ import { id } from '.'
 const trainingDTO = Type.Object({
 	id,
 	organization: Type.Optional(Type.String()),
-	start_date: Type.Optional(Type.Date()),
-	end_date: Type.Optional(Type.Date()),
-	DNI: Type.Optional(Type.String()),
+	startDate: Type.Optional(Type.Date()),
+	endDate: Type.Optional(Type.Date()),
+	dni: Type.Optional(Type.String()),
 	module: Type.Optional(Type.String()),
 	scenario: Type.Optional(Type.String()),
 	modality: Type.Optional(Type.String()),
 	result: Type.Optional(Type.String()),
-	critical_errors: Type.Optional(Type.String()),
-	minor_errors: Type.Optional(Type.String()),
-	epp_no_tomados: Type.Optional(Type.String()),
-	epp_incorrectamente_tomados: Type.Optional(Type.String()),
-	is_deleted: Type.Number(),
+	criticalErrors: Type.Optional(Type.String()),
+	minorErrors: Type.Optional(Type.String()),
+	eppNoTomados: Type.Optional(Type.String()),
+	eppIncorrectamenteTomados: Type.Optional(Type.String()),
+	deleted: Type.Number(),
 })
 
 type TrainingDTO = Static<typeof trainingDTO>
