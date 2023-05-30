@@ -11,7 +11,7 @@ import {
 	LastTrainingDTO,
 	MostCommonResultDTO,
 	MostUsedModuleDTO,
-	OrganizationFilterDTO,
+	OrganizationFiltersDTO,
 	TrainingDTO,
 	TrainingsFiltersDTO,
 } from 'schemas'
@@ -27,7 +27,7 @@ type Process = {
 }
 
 type Arguments = {
-	organizationFilter?: OrganizationFilterDTO
+	organizationFilter?: OrganizationFiltersDTO
 	trainingsFilters?: TrainingsFiltersDTO
 }
 
@@ -67,9 +67,9 @@ class TrainingService {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
 
-			const { organization } = this.#args.organizationFilter
-
-			const mostUsedModules = await getMostUsedModules(organization)
+			const mostUsedModules = await getMostUsedModules(
+				this.#args.organizationFilter
+			)
 
 			return mostUsedModules
 		} catch (e) {
@@ -82,9 +82,9 @@ class TrainingService {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
 
-			const { organization } = this.#args.organizationFilter
-
-			const mostCommonResults = await getMostCommonResults(organization)
+			const mostCommonResults = await getMostCommonResults(
+				this.#args.organizationFilter
+			)
 
 			return mostCommonResults
 		} catch (e) {
@@ -97,9 +97,9 @@ class TrainingService {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
 
-			const { organization } = this.#args.organizationFilter
-
-			const lastTrainings = await getLastTrainings(organization)
+			const lastTrainings = await getLastTrainings(
+				this.#args.organizationFilter
+			)
 
 			return lastTrainings
 		} catch (e) {
@@ -112,9 +112,7 @@ class TrainingService {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
 
-			const { organization } = this.#args.organizationFilter
-
-			const modules = await getModules(organization)
+			const modules = await getModules(this.#args.organizationFilter)
 
 			return modules
 		} catch (e) {

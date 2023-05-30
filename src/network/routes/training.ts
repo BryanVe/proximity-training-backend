@@ -3,8 +3,8 @@ import { NextFunction, Router } from 'express'
 import { response } from 'network/response'
 import { TrainingService } from 'services'
 import {
-	OrganizationFilterDTO,
-	organizationFilterDTO,
+	OrganizationFiltersDTO,
+	organizationFiltersDTO,
 	trainingsFiltersDTO,
 	TrainingsFiltersDTO,
 } from 'schemas'
@@ -13,14 +13,14 @@ import { validatorCompiler } from './utils'
 const Training = Router()
 
 Training.route('/training/most-used-modules').post(
-	validatorCompiler(organizationFilterDTO, 'body'),
+	validatorCompiler(organizationFiltersDTO, 'body'),
 	async (
 		req: CustomRequest,
 		res: CustomResponse,
 		next: NextFunction
 	): Promise<void> => {
 		try {
-			const organizationFilter = req.body as OrganizationFilterDTO
+			const organizationFilter = req.body as OrganizationFiltersDTO
 			const ts = new TrainingService({ organizationFilter })
 			const result = await ts.process({ type: 'getMostUsedModules' })
 
@@ -32,14 +32,14 @@ Training.route('/training/most-used-modules').post(
 )
 
 Training.route('/training/most-common-results').post(
-	validatorCompiler(organizationFilterDTO, 'body'),
+	validatorCompiler(organizationFiltersDTO, 'body'),
 	async (
 		req: CustomRequest,
 		res: CustomResponse,
 		next: NextFunction
 	): Promise<void> => {
 		try {
-			const organizationFilter = req.body as OrganizationFilterDTO
+			const organizationFilter = req.body as OrganizationFiltersDTO
 			const ts = new TrainingService({ organizationFilter })
 			const result = await ts.process({ type: 'getMostCommonResults' })
 
@@ -51,14 +51,14 @@ Training.route('/training/most-common-results').post(
 )
 
 Training.route('/training/last').post(
-	validatorCompiler(organizationFilterDTO, 'body'),
+	validatorCompiler(organizationFiltersDTO, 'body'),
 	async (
 		req: CustomRequest,
 		res: CustomResponse,
 		next: NextFunction
 	): Promise<void> => {
 		try {
-			const organizationFilter = req.body as OrganizationFilterDTO
+			const organizationFilter = req.body as OrganizationFiltersDTO
 			const ts = new TrainingService({ organizationFilter })
 			const result = await ts.process({ type: 'getLastTrainings' })
 
@@ -70,14 +70,14 @@ Training.route('/training/last').post(
 )
 
 Training.route('/training/modules').post(
-	validatorCompiler(organizationFilterDTO, 'body'),
+	validatorCompiler(organizationFiltersDTO, 'body'),
 	async (
 		req: CustomRequest,
 		res: CustomResponse,
 		next: NextFunction
 	): Promise<void> => {
 		try {
-			const organizationFilter = req.body as OrganizationFilterDTO
+			const organizationFilter = req.body as OrganizationFiltersDTO
 			const ts = new TrainingService({ organizationFilter })
 			const result = await ts.process({ type: 'getModules' })
 

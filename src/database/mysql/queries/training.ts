@@ -3,14 +3,16 @@ import {
 	LastTrainingDTO,
 	MostCommonResultDTO,
 	MostUsedModuleDTO,
+	OrganizationFiltersDTO,
 	TrainingDTO,
 	TrainingsFiltersDTO,
 } from 'schemas'
 import { Sequelize } from 'sequelize'
 
 const getMostUsedModules = async (
-	organization: string
+	filters: OrganizationFiltersDTO
 ): Promise<MostUsedModuleDTO[]> => {
+	const { organization, limit } = filters
 	const mostUsedModules = await Training.findAll({
 		attributes: [
 			'module',
@@ -22,15 +24,16 @@ const getMostUsedModules = async (
 		},
 		group: ['module'],
 		order: [['quantity', 'DESC']],
-		limit: 7,
+		limit,
 	})
 
 	return mostUsedModules.map(m => m.get())
 }
 
 const getMostCommonResults = async (
-	organization: string
+	filters: OrganizationFiltersDTO
 ): Promise<MostCommonResultDTO[]> => {
+	const { organization, limit } = filters
 	const mostCommonResult = await Training.findAll({
 		attributes: [
 			'result',
@@ -42,15 +45,16 @@ const getMostCommonResults = async (
 		},
 		group: ['result'],
 		order: [['quantity', 'DESC']],
-		limit: 7,
+		limit,
 	})
 
 	return mostCommonResult.map(m => m.get())
 }
 
 const getLastTrainings = async (
-	organization: string
+	filters: OrganizationFiltersDTO
 ): Promise<LastTrainingDTO[]> => {
+	const { organization, limit } = filters
 	const lastTrainings = await Training.findAll({
 		attributes: ['id', 'organization', 'startDate', 'module', 'result'],
 		where: {
@@ -58,13 +62,16 @@ const getLastTrainings = async (
 			deleted: 0,
 		},
 		order: [['startDate', 'DESC']],
-		limit: 5,
+		limit,
 	})
 
 	return lastTrainings.map(m => m.get())
 }
 
-const getModules = async (organization: string): Promise<string[]> => {
+const getModules = async (
+	filters: OrganizationFiltersDTO
+): Promise<string[]> => {
+	const { organization, limit } = filters
 	const modules = await Training.findAll({
 		attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('module')), 'module']],
 		where: {
@@ -72,6 +79,7 @@ const getModules = async (organization: string): Promise<string[]> => {
 			deleted: 0,
 		},
 		order: [['module', 'ASC']],
+		limit,
 	})
 
 	return modules.map(m => m.module)

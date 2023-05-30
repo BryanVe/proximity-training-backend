@@ -20,11 +20,12 @@ const trainingDTO = Type.Object({
 
 type TrainingDTO = Static<typeof trainingDTO>
 
-const organizationFilterDTO = Type.Object({
+const organizationFiltersDTO = Type.Object({
 	organization: Type.String(),
+	limit: Type.Optional(Type.Number()),
 })
 
-type OrganizationFilterDTO = Static<typeof organizationFilterDTO>
+type OrganizationFiltersDTO = Static<typeof organizationFiltersDTO>
 
 const mostUsedModuleDTO = Type.Object({
 	module: Type.String(),
@@ -51,7 +52,7 @@ const lastTrainingDTO = Type.Object({
 type LastTrainingDTO = Static<typeof lastTrainingDTO>
 
 const trainingsFiltersDTO = Type.Intersect([
-	organizationFilterDTO,
+	organizationFiltersDTO,
 	Type.Object({
 		module: Type.String(),
 		limit: Type.Number(),
@@ -62,8 +63,8 @@ const trainingsFiltersDTO = Type.Intersect([
 type TrainingsFiltersDTO = Static<typeof trainingsFiltersDTO>
 
 export {
-	organizationFilterDTO,
-	OrganizationFilterDTO,
+	organizationFiltersDTO,
+	OrganizationFiltersDTO,
 	trainingDTO,
 	TrainingDTO,
 	mostUsedModuleDTO,
