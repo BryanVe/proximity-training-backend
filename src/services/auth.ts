@@ -35,16 +35,17 @@ class AuthService {
 
 			const { email, password } = this.#args.credentials
 
-			const user = await getByEmail(email)
+			const userWithPassword = await getByEmail(email)
 
-			if (!user) throw new httpErrors.Unauthorized(EFU.INVALID_CREDENTIALS)
+			if (!userWithPassword)
+				throw new httpErrors.Unauthorized(EFU.INVALID_CREDENTIALS)
 
-			const { password: savedPassword, ...userWithoutPassword } = user
+			const { password: savedPassword, ...user } = userWithPassword
 
 			if (savedPassword !== password)
 				throw new httpErrors.Unauthorized(EFU.INVALID_CREDENTIALS)
 
-			return userWithoutPassword
+			return user
 		} catch (e) {
 			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}

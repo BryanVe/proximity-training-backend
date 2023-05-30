@@ -1,9 +1,11 @@
 import { User } from '..'
-import { UserDTO } from 'schemas'
+import { UserWithPasswordDTO } from 'schemas'
 
-const userDBOtoDTO = (userDBO: User): UserDTO => userDBO.get()
+const userDBOtoDTO = (userDBO: User): UserWithPasswordDTO => userDBO.get()
 
-const getByEmail = async (email: string): Promise<UserDTO | null> => {
+const getByEmail = async (
+	email: string
+): Promise<UserWithPasswordDTO | null> => {
 	const user = await User.findOne({
 		where: {
 			email,
