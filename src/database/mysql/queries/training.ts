@@ -81,11 +81,11 @@ const getLastTrainings = async (
 	return lastTrainings.map(m => m.get())
 }
 
-const getModules = async (
+const getAvailableModules = async (
 	filters: OrganizationFiltersDTO
 ): Promise<string[]> => {
 	const { organization, limit } = filters
-	const modules = await Training.findAll({
+	const availableModules = await Training.findAll({
 		attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('module')), 'module']],
 		where: {
 			organization,
@@ -95,7 +95,7 @@ const getModules = async (
 		limit,
 	})
 
-	return modules.map(m => m.module)
+	return availableModules.map(m => m.module)
 }
 
 const getTrainings = async (
@@ -120,6 +120,6 @@ export {
 	getMostUsedModules,
 	getMostCommonResults,
 	getLastTrainings,
-	getModules,
+	getAvailableModules,
 	getTrainings,
 }

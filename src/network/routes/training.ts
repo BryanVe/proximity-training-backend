@@ -69,7 +69,7 @@ Training.route('/training/last').post(
 	}
 )
 
-Training.route('/training/modules').post(
+Training.route('/training/available-modules').post(
 	validatorCompiler(organizationFiltersDTO, 'body'),
 	async (
 		req: CustomRequest,
@@ -79,7 +79,7 @@ Training.route('/training/modules').post(
 		try {
 			const organizationFilter = req.body as OrganizationFiltersDTO
 			const ts = new TrainingService({ organizationFilter })
-			const result = await ts.process({ type: 'getModules' })
+			const result = await ts.process({ type: 'getAvailableModules' })
 
 			response({ error: false, message: result, res, status: 200 })
 		} catch (error) {

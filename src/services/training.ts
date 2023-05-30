@@ -2,7 +2,7 @@ import httpErrors from 'http-errors'
 
 import {
 	getLastTrainings,
-	getModules,
+	getAvailableModules,
 	getMostCommonResults,
 	getMostUsedModules,
 	getTrainings,
@@ -22,7 +22,7 @@ type Process = {
 		| 'getMostUsedModules'
 		| 'getMostCommonResults'
 		| 'getLastTrainings'
-		| 'getModules'
+		| 'getAvailableModules'
 		| 'getTrainings'
 }
 
@@ -53,8 +53,8 @@ class TrainingService {
 				return this.#getMostCommonResults()
 			case 'getLastTrainings':
 				return this.#getLastTrainings()
-			case 'getModules':
-				return this.#getModules()
+			case 'getAvailableModules':
+				return this.#getAvailableModules()
 			case 'getTrainings':
 				return this.#getTrainings()
 			default:
@@ -107,14 +107,16 @@ class TrainingService {
 		}
 	}
 
-	async #getModules(): Promise<string[]> {
+	async #getAvailableModules(): Promise<string[]> {
 		try {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
 
-			const modules = await getModules(this.#args.organizationFilter)
+			const availableModules = await getAvailableModules(
+				this.#args.organizationFilter
+			)
 
-			return modules
+			return availableModules
 		} catch (e) {
 			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}
