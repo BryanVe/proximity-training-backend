@@ -4,8 +4,6 @@ import { UserDTO } from 'schemas'
 const userDBOtoDTO = (userDBO: User): UserDTO => userDBO.get()
 
 const getByEmail = async (email: string): Promise<UserDTO | null> => {
-	if (!email) return null
-
 	const user = await User.findOne({
 		where: {
 			email,

@@ -2,7 +2,7 @@ import { NextFunction, Router } from 'express'
 
 import { response } from 'network/response'
 import { AuthService } from 'services'
-import { credentialsDTO } from 'schemas'
+import { CredentialsDTO, credentialsDTO } from 'schemas'
 import { validatorCompiler } from './utils'
 
 const Auth = Router()
@@ -15,7 +15,7 @@ Auth.route('/auth').post(
 		next: NextFunction
 	): Promise<void> => {
 		try {
-			const credentials = req.body
+			const credentials = req.body as CredentialsDTO
 			const as = new AuthService({ credentials })
 			const result = await as.process({ type: 'auth' })
 

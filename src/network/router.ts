@@ -3,14 +3,17 @@ import swaggerUi from 'swagger-ui-express'
 import httpErrors from 'http-errors'
 
 import { response } from './response'
-import { Home, Auth } from './routes'
+import * as routes from './routes'
 import { docs } from 'utils'
 
-const routers: Router[] = [Auth]
+const { Home, ...restRoutes } = routes
+
 const applyRoutes = (app: Application): void => {
 	app.use('/', Home)
 	app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(docs))
-	routers.forEach((router: Router): Application => app.use('/api', router))
+	Object.values(restRoutes).forEach(
+		(router: Router): Application => app.use('/api', router)
+	)
 
 	// Handling 404 error
 	app.use((req, res, next) => {

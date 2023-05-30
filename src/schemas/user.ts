@@ -3,7 +3,7 @@ import { Static, Type } from '@sinclair/typebox'
 import { id } from '.'
 
 const userDTO = Type.Object({
-	id: Type.Optional(id),
+	id,
 	user: Type.String(),
 	email: Type.String(),
 	password: Type.Optional(Type.String()),
