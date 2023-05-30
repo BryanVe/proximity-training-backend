@@ -36,7 +36,7 @@ type MostUsedModuleDTO = Static<typeof mostUsedModuleDTO>
 
 const mostCommonResultDTO = Type.Object({
 	result: Type.String(),
-	quantity: Type.Number(),
+	percentage: Type.Number(),
 })
 
 type MostCommonResultDTO = Static<typeof mostCommonResultDTO>

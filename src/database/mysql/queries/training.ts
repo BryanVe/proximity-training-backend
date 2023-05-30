@@ -34,7 +34,7 @@ const getMostCommonResults = async (
 	filters: OrganizationFiltersDTO
 ): Promise<MostCommonResultDTO[]> => {
 	const { organization, limit } = filters
-	const mostCommonResult = await Training.findAll({
+	const queryResults = await Training.findAll({
 		attributes: [
 			'result',
 			[Sequelize.fn('COUNT', Sequelize.col('result')), 'quantity'],
@@ -48,7 +48,20 @@ const getMostCommonResults = async (
 		limit,
 	})
 
-	return mostCommonResult.map(m => m.get())
+	const totalResults = queryResults.reduce(
+		(total, result) => total + result.get().quantity,
+		0
+	)
+	const mostCommonResults = queryResults.map(e => {
+		const { quantity, ...rest } = e.get()
+
+		return {
+			...rest,
+			percentage: ((quantity / totalResults) * 100).toFixed(2),
+		}
+	})
+
+	return mostCommonResults
 }
 
 const getLastTrainings = async (
