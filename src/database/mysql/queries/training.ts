@@ -23,7 +23,7 @@ const getMostUsedModules = async (
 		limit: 7,
 	})
 
-	return mostUsedModules.map(m => m.get() as MostUsedModuleDTO)
+	return mostUsedModules.map(m => m.get())
 }
 
 const getMostCommonResults = async (
@@ -43,7 +43,7 @@ const getMostCommonResults = async (
 		limit: 7,
 	})
 
-	return mostCommonResult.map(m => m.get() as MostCommonResultDTO)
+	return mostCommonResult.map(m => m.get())
 }
 
 const getLastTrainings = async (
@@ -59,7 +59,25 @@ const getLastTrainings = async (
 		limit: 5,
 	})
 
-	return lastTrainings.map(m => m.get() as LastTrainingDTO)
+	return lastTrainings.map(m => m.get())
 }
 
-export { getMostUsedModules, getMostCommonResults, getLastTrainings }
+const getModules = async (organization: string): Promise<string[]> => {
+	const modules = await Training.findAll({
+		attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('module')), 'module']],
+		where: {
+			organization,
+			deleted: 0,
+		},
+		order: [['module', 'ASC']],
+	})
+
+	return modules.map(m => m.module)
+}
+
+export {
+	getMostUsedModules,
+	getMostCommonResults,
+	getLastTrainings,
+	getModules,
+}

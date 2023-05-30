@@ -64,4 +64,23 @@ Training.route('/training/last').post(
 	}
 )
 
+Training.route('/training/modules').post(
+	validatorCompiler(organizationFilterDTO, 'body'),
+	async (
+		req: CustomRequest,
+		res: CustomResponse,
+		next: NextFunction
+	): Promise<void> => {
+		try {
+			const organizationFilter = req.body as OrganizationFilterDTO
+			const ts = new TrainingService({ organizationFilter })
+			const result = await ts.process({ type: 'getModules' })
+
+			response({ error: false, message: result, res, status: 200 })
+		} catch (error) {
+			next(error)
+		}
+	}
+)
+
 export { Training }
