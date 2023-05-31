@@ -27,19 +27,9 @@ const organizationFiltersDTO = Type.Object({
 
 type OrganizationFiltersDTO = Static<typeof organizationFiltersDTO>
 
-const moduleDTO = Type.Object({
-	module: Type.String(),
-	quantity: Type.Number(),
-})
+const stringToNumberMap = Type.Record(Type.String(), Type.Number())
 
-type ModuleDTO = Static<typeof moduleDTO>
-
-const mostCommonResultDTO = Type.Object({
-	result: Type.String(),
-	percentage: Type.Number(),
-})
-
-type MostCommonResultDTO = Static<typeof mostCommonResultDTO>
+type StringToNumberMap = Static<typeof stringToNumberMap>
 
 const lastTrainingDTO = Type.Object({
 	id,
@@ -67,10 +57,8 @@ export {
 	OrganizationFiltersDTO,
 	trainingDTO,
 	TrainingDTO,
-	moduleDTO,
-	ModuleDTO,
-	mostCommonResultDTO,
-	MostCommonResultDTO,
+	stringToNumberMap,
+	StringToNumberMap,
 	lastTrainingDTO,
 	LastTrainingDTO,
 	trainingsFiltersDTO,

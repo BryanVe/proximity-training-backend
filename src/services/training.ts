@@ -9,8 +9,7 @@ import {
 } from 'database'
 import {
 	LastTrainingDTO,
-	MostCommonResultDTO,
-	ModuleDTO,
+	StringToNumberMap,
 	OrganizationFiltersDTO,
 	TrainingDTO,
 	TrainingsFiltersDTO,
@@ -31,11 +30,7 @@ type Arguments = {
 	trainingsFilters?: TrainingsFiltersDTO
 }
 
-type Responses =
-	| ModuleDTO[]
-	| MostCommonResultDTO[]
-	| LastTrainingDTO[]
-	| TrainingDTO[]
+type Responses = StringToNumberMap | LastTrainingDTO[] | TrainingDTO[]
 
 class TrainingService {
 	#args: Arguments
@@ -61,7 +56,7 @@ class TrainingService {
 		}
 	}
 
-	async #getMostUsedModules(): Promise<ModuleDTO[]> {
+	async #getMostUsedModules(): Promise<StringToNumberMap> {
 		try {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
@@ -76,7 +71,7 @@ class TrainingService {
 		}
 	}
 
-	async #getMostCommonResults(): Promise<MostCommonResultDTO[]> {
+	async #getMostCommonResults(): Promise<StringToNumberMap> {
 		try {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
@@ -106,7 +101,7 @@ class TrainingService {
 		}
 	}
 
-	async #getAvailableModules(): Promise<ModuleDTO[]> {
+	async #getAvailableModules(): Promise<StringToNumberMap> {
 		try {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)

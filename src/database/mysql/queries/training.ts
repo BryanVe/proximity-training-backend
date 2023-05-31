@@ -1,8 +1,7 @@
 import { Training } from '..'
 import {
 	LastTrainingDTO,
-	MostCommonResultDTO,
-	ModuleDTO,
+	StringToNumberMap,
 	OrganizationFiltersDTO,
 	TrainingDTO,
 	TrainingsFiltersDTO,
@@ -11,9 +10,9 @@ import { Sequelize } from 'sequelize'
 
 const getMostUsedModules = async (
 	filters: OrganizationFiltersDTO
-): Promise<ModuleDTO[]> => {
+): Promise<StringToNumberMap> => {
 	const { organization, limit } = filters
-	const mostUsedModules = await Training.findAll({
+	const queryResults = await Training.findAll({
 		attributes: [
 			'module',
 			[Sequelize.fn('COUNT', Sequelize.col('module')), 'quantity'],
@@ -27,12 +26,18 @@ const getMostUsedModules = async (
 		limit,
 	})
 
-	return mostUsedModules.map(m => m.get())
+	return Object.fromEntries(
+		queryResults.map(q => {
+			const m = q.get()
+
+			return [m.module, m.quantity]
+		})
+	)
 }
 
 const getMostCommonResults = async (
 	filters: OrganizationFiltersDTO
-): Promise<MostCommonResultDTO[]> => {
+): Promise<StringToNumberMap> => {
 	const { organization, limit } = filters
 	const queryResults = await Training.findAll({
 		attributes: [
@@ -52,16 +57,15 @@ const getMostCommonResults = async (
 		(total, result) => total + result.get().quantity,
 		0
 	)
-	const mostCommonResults = queryResults.map(e => {
-		const { quantity, ...rest } = e.get()
 
-		return {
-			...rest,
-			percentage: ((quantity / totalResults) * 100).toFixed(2),
-		}
-	})
+	return Object.fromEntries(
+		queryResults.map(q => {
+			const { quantity, result } = q.get()
+			const percentage = ((quantity / totalResults) * 100).toFixed(2)
 
-	return mostCommonResults
+			return [result, percentage]
+		})
+	)
 }
 
 const getLastTrainings = async (
@@ -83,9 +87,9 @@ const getLastTrainings = async (
 
 const getAvailableModules = async (
 	filters: OrganizationFiltersDTO
-): Promise<ModuleDTO[]> => {
+): Promise<StringToNumberMap> => {
 	const { organization, limit } = filters
-	const availableModules = await Training.findAll({
+	const queryResults = await Training.findAll({
 		attributes: [
 			'module',
 			[Sequelize.fn('COUNT', Sequelize.col('module')), 'quantity'],
@@ -99,7 +103,13 @@ const getAvailableModules = async (
 		limit,
 	})
 
-	return availableModules.map(a => a.get())
+	return Object.fromEntries(
+		queryResults.map(q => {
+			const a = q.get()
+
+			return [a.module, a.quantity]
+		})
+	)
 }
 
 const getTrainings = async (
