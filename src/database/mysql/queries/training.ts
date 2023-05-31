@@ -2,7 +2,7 @@ import { Training } from '..'
 import {
 	LastTrainingDTO,
 	MostCommonResultDTO,
-	MostUsedModuleDTO,
+	ModuleDTO,
 	OrganizationFiltersDTO,
 	TrainingDTO,
 	TrainingsFiltersDTO,
@@ -11,7 +11,7 @@ import { Sequelize } from 'sequelize'
 
 const getMostUsedModules = async (
 	filters: OrganizationFiltersDTO
-): Promise<MostUsedModuleDTO[]> => {
+): Promise<ModuleDTO[]> => {
 	const { organization, limit } = filters
 	const mostUsedModules = await Training.findAll({
 		attributes: [
@@ -83,19 +83,23 @@ const getLastTrainings = async (
 
 const getAvailableModules = async (
 	filters: OrganizationFiltersDTO
-): Promise<string[]> => {
+): Promise<ModuleDTO[]> => {
 	const { organization, limit } = filters
 	const availableModules = await Training.findAll({
-		attributes: [[Sequelize.fn('DISTINCT', Sequelize.col('module')), 'module']],
+		attributes: [
+			'module',
+			[Sequelize.fn('COUNT', Sequelize.col('module')), 'quantity'],
+		],
 		where: {
 			organization,
 			deleted: 0,
 		},
+		group: ['module'],
 		order: [['module', 'ASC']],
 		limit,
 	})
 
-	return availableModules.map(m => m.module)
+	return availableModules.map(a => a.get())
 }
 
 const getTrainings = async (

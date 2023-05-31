@@ -10,7 +10,7 @@ import {
 import {
 	LastTrainingDTO,
 	MostCommonResultDTO,
-	MostUsedModuleDTO,
+	ModuleDTO,
 	OrganizationFiltersDTO,
 	TrainingDTO,
 	TrainingsFiltersDTO,
@@ -32,10 +32,9 @@ type Arguments = {
 }
 
 type Responses =
-	| MostUsedModuleDTO[]
+	| ModuleDTO[]
 	| MostCommonResultDTO[]
 	| LastTrainingDTO[]
-	| string[]
 	| TrainingDTO[]
 
 class TrainingService {
@@ -62,7 +61,7 @@ class TrainingService {
 		}
 	}
 
-	async #getMostUsedModules(): Promise<MostUsedModuleDTO[]> {
+	async #getMostUsedModules(): Promise<ModuleDTO[]> {
 		try {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
@@ -107,7 +106,7 @@ class TrainingService {
 		}
 	}
 
-	async #getAvailableModules(): Promise<string[]> {
+	async #getAvailableModules(): Promise<ModuleDTO[]> {
 		try {
 			if (!this.#args.organizationFilter)
 				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
