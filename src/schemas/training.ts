@@ -11,10 +11,10 @@ const trainingDTO = Type.Object({
 	scenario: Type.Optional(Type.String()),
 	modality: Type.Optional(Type.String()),
 	result: Type.Optional(Type.String()),
-	criticalErrors: Type.Optional(Type.String()),
-	minorErrors: Type.Optional(Type.String()),
-	eppNoTomados: Type.Optional(Type.String()),
-	eppIncorrectamenteTomados: Type.Optional(Type.String()),
+	criticalErrors: Type.Array(Type.String()),
+	minorErrors: Type.Array(Type.String()),
+	eppNoTomados: Type.Array(Type.String()),
+	eppIncorrectamenteTomados: Type.Array(Type.String()),
 	deleted: Type.Number(),
 })
 

@@ -1,4 +1,5 @@
 import { Model, Column, Table, DataType } from 'sequelize-typescript'
+import { parseValueToArray } from '../utils'
 
 @Table({
 	paranoid: true,
@@ -17,69 +18,81 @@ class Training extends Model {
 	@Column({
 		type: DataType.STRING,
 	})
-	organization!: string
+	organization?: string
 
 	@Column({
 		type: DataType.DATE,
 		field: 'start_date',
 	})
-	startDate!: string
+	startDate?: string
 
 	@Column({
 		type: DataType.DATE,
 		field: 'end_date',
 	})
-	endDate!: string
+	endDate?: string
 
 	@Column({
 		type: DataType.STRING,
 		field: 'DNI',
 	})
-	dni!: string
+	dni?: string
 
 	@Column({
 		type: DataType.STRING,
 	})
-	module!: string
+	module?: string
 
 	@Column({
 		type: DataType.STRING,
 	})
-	scenario!: string
+	scenario?: string
 
 	@Column({
 		type: DataType.STRING,
 	})
-	modality!: string
+	modality?: string
 
 	@Column({
 		type: DataType.STRING,
 	})
-	result!: string
+	result?: string
 
 	@Column({
 		type: DataType.STRING,
 		field: 'critical_errors',
+		get() {
+			return parseValueToArray(this.getDataValue('criticalErrors'))
+		},
 	})
-	criticalErrors!: string
+	criticalErrors!: string[]
 
 	@Column({
 		type: DataType.STRING,
 		field: 'minor_errors',
+		get() {
+			return parseValueToArray(this.getDataValue('minorErrors'))
+		},
 	})
-	minorErrors!: string
+	minorErrors!: string[]
 
 	@Column({
 		type: DataType.STRING,
 		field: 'epp_no_tomados',
+		get() {
+			return parseValueToArray(this.getDataValue('eppNoTomados'))
+		},
 	})
-	eppNoTomados!: string
+	eppNoTomados!: string[]
 
 	@Column({
 		type: DataType.STRING,
 		field: 'epp_incorrectamente_tomados',
+		get() {
+			return parseValueToArray(this.getDataValue('eppIncorrectamenteTomados'))
+		},
 	})
-	eppIncorrectamenteTomados!: string
+	eppIncorrectamenteTomados!: string[]
 
 	@Column({
 		type: DataType.INTEGER,
