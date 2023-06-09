@@ -1,15 +1,16 @@
 import httpErrors from 'http-errors'
 
-import { getByEmail } from 'database'
-import { CredentialsDTO, UserDTO } from 'schemas'
-import { EFU, GE, errorHandling } from './utils'
+import { getByEmail, updatePassword } from 'database'
+import { CredentialsDTO, UpdatePasswordDTO, UserDTO } from 'schemas'
+import { EFU, GE, errorHandling, MFU } from './utils'
 
 type Process = {
-	type: 'auth'
+	type: 'auth' | 'updatePassword'
 }
 
 type Arguments = {
 	credentials?: CredentialsDTO
+	updatePasswordBody?: UpdatePasswordDTO
 }
 
 class AuthService {
@@ -19,10 +20,12 @@ class AuthService {
 		this.#args = args
 	}
 
-	public process({ type }: Process): Promise<UserDTO> {
+	public process({ type }: Process): Promise<UserDTO | string> {
 		switch (type) {
 			case 'auth':
 				return this.#auth()
+			case 'updatePassword':
+				return this.#updatePassword()
 			default:
 				throw new httpErrors.InternalServerError(GE.INTERNAL_SERVER_ERROR)
 		}
@@ -46,6 +49,22 @@ class AuthService {
 				throw new httpErrors.Unauthorized(EFU.INVALID_CREDENTIALS)
 
 			return user
+		} catch (e) {
+			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
+		}
+	}
+
+	async #updatePassword(): Promise<string> {
+		try {
+			if (!this.#args.updatePasswordBody)
+				throw new httpErrors.UnprocessableEntity(GE.INTERNAL_SERVER_ERROR)
+
+			const affectedCount = await updatePassword(this.#args.updatePasswordBody)
+
+			if (affectedCount === 0)
+				throw new httpErrors.NotFound(EFU.COULD_NOT_UPDATE_PASSWORD)
+
+			return MFU.UPDATED_PASSWORD
 		} catch (e) {
 			return errorHandling(e, GE.INTERNAL_SERVER_ERROR)
 		}

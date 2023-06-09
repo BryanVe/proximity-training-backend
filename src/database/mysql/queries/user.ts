@@ -1,5 +1,5 @@
 import { User } from '..'
-import { UserWithPasswordDTO } from 'schemas'
+import { UpdatePasswordDTO, UserWithPasswordDTO } from 'schemas'
 
 const userDBOtoDTO = (userDBO: User): UserWithPasswordDTO => userDBO.get()
 
@@ -16,4 +16,21 @@ const getByEmail = async (
 	return user ? userDBOtoDTO(user) : null
 }
 
-export { getByEmail }
+const updatePassword = async (args: UpdatePasswordDTO): Promise<number> => {
+	const { userId, password } = args
+
+	const [affectedCount] = await User.update(
+		{
+			password,
+		},
+		{
+			where: {
+				id: userId,
+			},
+		}
+	)
+
+	return affectedCount
+}
+
+export { getByEmail, updatePassword }

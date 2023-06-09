@@ -7,4 +7,11 @@ const credentialsDTO = Type.Object({
 
 type CredentialsDTO = Static<typeof credentialsDTO>
 
-export { credentialsDTO, CredentialsDTO }
+const updatePasswordDTO = Type.Object({
+	userId: Type.Number(),
+	password: Type.String(),
+})
+
+type UpdatePasswordDTO = Static<typeof updatePasswordDTO>
+
+export { credentialsDTO, CredentialsDTO, updatePasswordDTO, UpdatePasswordDTO }
