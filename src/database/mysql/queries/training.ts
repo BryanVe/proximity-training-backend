@@ -6,7 +6,20 @@ import {
 	TrainingDTO,
 	TrainingsFiltersDTO,
 } from 'schemas'
-import { Sequelize } from 'sequelize'
+import { Order, Sequelize } from 'sequelize'
+
+const ORDERS: Record<TrainingsFiltersDTO['order'], Order> = {
+	NEWEST_FIRST: [['startDate', 'DESC']],
+	OLDER_FIRST: [['startDate', 'ASC']],
+	COMPLETED_FIRST: [
+		Sequelize.literal('CASE WHEN result = "COMPLETADO" THEN 1 ELSE 2 END'),
+		['startDate', 'DESC'],
+	],
+	NOT_COMPLETED_FIRST: [
+		Sequelize.literal('CASE WHEN result = "NO COMPLETADO" THEN 1 ELSE 2 END'),
+		['startDate', 'DESC'],
+	],
+}
 
 const getMostUsedModules = async (
 	filters: OrganizationFiltersDTO
@@ -115,16 +128,18 @@ const getAvailableModules = async (
 const getTrainings = async (
 	filters: TrainingsFiltersDTO
 ): Promise<TrainingDTO[]> => {
-	const { module, organization, limit, offset } = filters
+	const { module, organization, limit, offset, order } = filters
 	const trainings = await Training.findAll({
 		where: {
 			module,
 			organization,
 			deleted: 0,
 		},
-		order: [['startDate', 'DESC']],
 		limit,
 		offset,
+		...(ORDERS[order] && {
+			order: ORDERS[order],
+		}),
 	})
 
 	return trainings.map(t => t.get())

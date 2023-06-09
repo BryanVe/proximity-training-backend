@@ -47,6 +47,12 @@ const trainingsFiltersDTO = Type.Intersect([
 		module: Type.String(),
 		limit: Type.Number(),
 		offset: Type.Number(),
+		order: Type.Union([
+			Type.Literal('NEWEST_FIRST'),
+			Type.Literal('OLDER_FIRST'),
+			Type.Literal('COMPLETED_FIRST'),
+			Type.Literal('NOT_COMPLETED_FIRST'),
+		]),
 	}),
 ])
 
