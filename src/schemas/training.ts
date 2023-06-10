@@ -3,7 +3,6 @@ import { id } from '.'
 
 const trainingDTO = Type.Object({
 	id,
-	organization: Type.Optional(Type.String()),
 	startDate: Type.Optional(Type.Date()),
 	endDate: Type.Optional(Type.Date()),
 	dni: Type.Optional(Type.String()),
@@ -33,7 +32,6 @@ type StringToNumberMap = Static<typeof stringToNumberMap>
 
 const lastTrainingDTO = Type.Object({
 	id,
-	organization: Type.Optional(Type.String()),
 	startDate: Type.Optional(Type.Date()),
 	module: Type.Optional(Type.String()),
 	result: Type.Optional(Type.String()),
