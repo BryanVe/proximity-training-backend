@@ -72,6 +72,280 @@
 					}
 				}
 			}
+		},
+		"/update-password": {
+			"post": {
+				"tags": [
+					"Configuración"
+				],
+				"summary": "Actualización de la contraseña mediante el ID del usuario",
+				"operationId": "update-password",
+				"requestBody": {
+					"$ref": "#/components/requestBodies/UpdatePasswordDTO"
+				},
+				"responses": {
+					"200": {
+						"description": "La contraseña se actualizó correctamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdatedPassword"
+								}
+							}
+						}
+					},
+					"404": {
+						"description": "No se pudo actualizar la contraseña",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Cuerpo de la solicitud no procesable",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error interno del servidor",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/training/most-used-modules": {
+			"post": {
+				"tags": [
+					"Entrenamientos"
+				],
+				"summary": "Obtener los módulos más utilizados",
+				"operationId": "most-used-modules",
+				"requestBody": {
+					"$ref": "#/components/requestBodies/OrganizationFiltersDTO"
+				},
+				"responses": {
+					"200": {
+						"description": "Se obtuvo los módulos más utilizados correctamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MostUsedModules"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Filtro no procesable",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error interno del servidor",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/training/most-common-results": {
+			"post": {
+				"tags": [
+					"Entrenamientos"
+				],
+				"summary": "Obtener los resultados más comunes",
+				"operationId": "most-common-results",
+				"requestBody": {
+					"$ref": "#/components/requestBodies/OrganizationFiltersDTO"
+				},
+				"responses": {
+					"200": {
+						"description": "Se obtuvo los resultados más comunes correctamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MostCommonResults"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Filtro no procesable",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error interno del servidor",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/training/last": {
+			"post": {
+				"tags": [
+					"Entrenamientos"
+				],
+				"summary": "Obtener los últimos entrenamientos",
+				"operationId": "last-trainings",
+				"requestBody": {
+					"$ref": "#/components/requestBodies/OrganizationFiltersDTO"
+				},
+				"responses": {
+					"200": {
+						"description": "Se obtuvo últimos entrenamientos correctamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/LastTrainings"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Filtro no procesable",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error interno del servidor",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/training/available-modules": {
+			"post": {
+				"tags": [
+					"Entrenamientos"
+				],
+				"summary": "Obtener los módulos disponibles",
+				"operationId": "available-modules",
+				"requestBody": {
+					"$ref": "#/components/requestBodies/OrganizationFiltersDTO"
+				},
+				"responses": {
+					"200": {
+						"description": "Se obtuvo módulos disponibles correctamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/StringToNumberMap"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Filtro no procesable",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error interno del servidor",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/training": {
+			"post": {
+				"tags": [
+					"Entrenamientos"
+				],
+				"summary": "Obtener los entrenamientos",
+				"operationId": "trainings",
+				"requestBody": {
+					"$ref": "#/components/requestBodies/TrainingsFiltersDTO"
+				},
+				"responses": {
+					"200": {
+						"description": "Se obtuvo los entrenamientos correctamente",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/Trainings"
+								}
+							}
+						}
+					},
+					"422": {
+						"description": "Filtro no procesable",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					},
+					"500": {
+						"description": "Error interno del servidor",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/DefaultError"
+								}
+							}
+						}
+					}
+				}
+			}
 		}
 	},
 	"components": {
@@ -100,6 +374,73 @@
 					}
 				}
 			},
+			"UpdatedPassword": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": false
+					},
+					"message": {
+						"type": "string",
+						"default": "La contraseña se actualizó correctamente"
+					}
+				}
+			},
+			"MostUsedModules": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": false
+					},
+					"message": {
+						"$ref": "#/components/schemas/StringToNumberMap"
+					}
+				}
+			},
+			"MostCommonResults": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": false
+					},
+					"message": {
+						"$ref": "#/components/schemas/StringToNumberMap"
+					}
+				}
+			},
+			"LastTrainings": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": false
+					},
+					"message": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/LastTrainingDTO"
+						}
+					}
+				}
+			},
+			"Trainings": {
+				"type": "object",
+				"properties": {
+					"error": {
+						"type": "boolean",
+						"default": false
+					},
+					"message": {
+						"type": "array",
+						"items": {
+							"$ref": "#/components/schemas/TrainingDTO"
+						}
+					}
+				}
+			},
 			"UserDTO": {
 				"type": "object",
 				"properties": {
@@ -119,6 +460,85 @@
 						"type": "number"
 					}
 				}
+			},
+			"TrainingDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"startDate": {
+						"type": "string"
+					},
+					"endDate": {
+						"type": "string"
+					},
+					"dni": {
+						"type": "string"
+					},
+					"module": {
+						"type": "string"
+					},
+					"scenario": {
+						"type": "string"
+					},
+					"modality": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string"
+					},
+					"criticalErrors": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"minorErrors": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"eppNoTomados": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"eppIncorrectamenteTomados": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						}
+					},
+					"deleted": {
+						"type": "number"
+					}
+				}
+			},
+			"StringToNumberMap": {
+				"type": "object",
+				"example": {
+					"key": 10
+				}
+			},
+			"LastTrainingDTO": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "number"
+					},
+					"startDate": {
+						"type": "string"
+					},
+					"module": {
+						"type": "string"
+					},
+					"result": {
+						"type": "string"
+					}
+				}
 			}
 		},
 		"requestBodies": {
@@ -135,7 +555,88 @@
 								},
 								"password": {
 									"type": "string",
-									"example": "pass"
+									"example": "password"
+								}
+							}
+						}
+					}
+				},
+				"required": true
+			},
+			"UpdatePasswordDTO": {
+				"description": "ID de usuario y nueva contraseña",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"userId": {
+									"type": "number",
+									"example": 1
+								},
+								"password": {
+									"type": "string",
+									"example": "password"
+								}
+							}
+						}
+					}
+				},
+				"required": true
+			},
+			"OrganizationFiltersDTO": {
+				"description": "Filtro por organización",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"organization": {
+									"type": "string",
+									"example": "organization"
+								},
+								"limit": {
+									"type": "number",
+									"example": 10
+								}
+							}
+						}
+					}
+				},
+				"required": true
+			},
+			"TrainingsFiltersDTO": {
+				"description": "Filtros de entrenamiento",
+				"content": {
+					"application/json": {
+						"schema": {
+							"type": "object",
+							"properties": {
+								"organization": {
+									"type": "string",
+									"example": "organization"
+								},
+								"module": {
+									"type": "string",
+									"example": "module"
+								},
+								"limit": {
+									"type": "number",
+									"example": 10
+								},
+								"offset": {
+									"type": "number",
+									"example": 0
+								},
+								"order": {
+									"type": "string",
+									"enum": [
+										"NEWEST_FIRST",
+										"OLDER_FIRST",
+										"COMPLETED_FIRST",
+										"NOT_COMPLETED_FIRST"
+									],
+									"example": "NEWEST_FIRST"
 								}
 							}
 						}
